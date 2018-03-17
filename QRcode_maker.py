@@ -3,6 +3,13 @@
 import sys
 from PyQt5 import QtWidgets, QtCore, QtGui
 import qrcode
+import shutil
+import ctypes  
+
+
+
+
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("myappid")  # 解决任务栏图标问题
 
 class make_QRcode(QtWidgets.QMainWindow):
 
@@ -31,6 +38,8 @@ class make_QRcode(QtWidgets.QMainWindow):
 
 
     def make_page1(self):
+        self.pic1_ad = "./pic/Cynosure.png"
+
         self.page1_logo()
         self.page1_input()
         self.page1_show()
@@ -65,6 +74,7 @@ class make_QRcode(QtWidgets.QMainWindow):
         self.page1_input_words.setFont(QtGui.QFont("黑体", 10))
 
         self.page1_input_text = QtWidgets.QLineEdit()
+        self.page1_input_text.textChanged.connect(self.maker1)
 
         self.page1_input_box = QtWidgets.QHBoxLayout()
         # self.page1_input_box.addStretch(1)
@@ -80,10 +90,15 @@ class make_QRcode(QtWidgets.QMainWindow):
         self.page1_show_pic_lb.setPixmap(self.page1_show_pic)
         self.page1_show_pic_lb.setToolTip("快扫一下吧")
         
-        self.page1_show_make_bt = QtWidgets.QPushButton("生成二维码", self)
-        self.page1_show_make_bt.setFont(QtGui.QFont("黑体", 20))
-        self.page1_show_make_bt.clicked.connect(self.maker1)
-        self.page1_show_make_bt.setToolTip("摁一下")
+        # self.page1_show_make_bt = QtWidgets.QPushButton("生成二维码", self)
+        # self.page1_show_make_bt.setFont(QtGui.QFont("黑体", 20))
+        # self.page1_show_make_bt.clicked.connect(self.maker1)
+        # self.page1_show_make_bt.setToolTip("摁一下")
+
+        self.page1_show_save_bt = QtWidgets.QPushButton("保存二维码", self)
+        self.page1_show_save_bt.setFont(QtGui.QFont("黑体", 20))
+        self.page1_show_save_bt.clicked.connect(self.save1)
+        self.page1_show_save_bt.setToolTip("保存至本地")
         
 
         self.page1_show_hbox1 = QtWidgets.QHBoxLayout()
@@ -93,7 +108,8 @@ class make_QRcode(QtWidgets.QMainWindow):
 
         self.page1_show_hbox2 = QtWidgets.QHBoxLayout()
         self.page1_show_hbox2.addStretch(1)
-        self.page1_show_hbox2.addWidget(self.page1_show_make_bt)
+        # self.page1_show_hbox2.addWidget(self.page1_show_make_bt)
+        self.page1_show_hbox2.addWidget(self.page1_show_save_bt)
         self.page1_show_hbox2.addStretch(1)
 
         self.page1_show_box = QtWidgets.QVBoxLayout()
@@ -120,9 +136,15 @@ class make_QRcode(QtWidgets.QMainWindow):
     def maker1(self):
         self.url = self.page1_input_text.text()
         img = qrcode.make(self.url)
-        img.save("01.png")
-        self.page1_show_pic = QtGui.QPixmap('./01.png').scaled(self.size_.width()*0.7, self.size_.width()*0.7)
+        self.pic1_ad = "./pic/01.png"
+        img.save(self.pic1_ad)
+        self.page1_show_pic = QtGui.QPixmap(self.pic1_ad).scaled(self.size_.width()*0.7, self.size_.width()*0.7)
         self.page1_show_pic_lb.setPixmap(self.page1_show_pic)
+
+    def save1(self):
+        self.filename1 , self.ok1 = QtWidgets.QFileDialog.getSaveFileName(self, "保存二维码", "C:/", "图片 (*.png)")
+        if self.ok1:
+            shutil.copy(self.pic1_ad, self.filename1)
 
 
     def setsize1(self):
