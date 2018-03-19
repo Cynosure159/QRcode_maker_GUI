@@ -1,2 +1,3 @@
 PyQt5==5.9
 qrcode==5.3
+MyQR==2.3.1
