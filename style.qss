@@ -1,0 +1,18 @@
+QMainWindow {
+    background-color: rgb(203, 255, 252);
+}
+
+QPushButton#page1_show_save_bt , QPushButton#page2_show_save_bt , QPushButton#page2_show_from_bt{
+    background-color: #cacaca;
+    border : 0px;
+    padding : 8px;
+    border-radius:10px;
+}
+
+QPushButton#page1_show_save_bt:pressed, QPushButton#page2_show_save_bt:pressed, QPushButton#page2_show_from_bt:pressed{
+    background-color: #dddddd;
+}
+
+QLineEdit{
+    padding : 5px;
+}
