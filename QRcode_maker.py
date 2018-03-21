@@ -358,6 +358,10 @@ class make_QRcode(QtWidgets.QMainWindow):
         
         if reply == QtWidgets.QMessageBox.Yes:
             event.accept()
+            if os.path.exists("./pic/02.png"):
+                os.remove("./pic/02.png")
+            if os.path.exists("./pic/01.png"):              
+                os.remove("./pic/01.png")
         else:
             event.ignore()
 
